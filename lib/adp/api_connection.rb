@@ -132,6 +132,10 @@ module Adp
                 http.cert = OpenSSL::X509::Certificate.new( pem );
                 http.key = OpenSSL::PKey::RSA.new(key, self.connection_configuration.sslKeyPass);
                 http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+                
+                Log.debug(">>>>>>>>>>>>>>>>>>>>>>>>> HERE GOES NOTHING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+                OpenSSL::X509::Store.add_path('../config/certs/')
+                Log.debug(">>>>>>>>>>>>>>>>>>>>>>>>> ANYTHING HAPPEN? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
             end
 
             if method.eql?('POST')
