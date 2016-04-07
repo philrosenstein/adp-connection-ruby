@@ -132,10 +132,11 @@ module Adp
                 http.cert = OpenSSL::X509::Certificate.new( pem );
                 http.key = OpenSSL::PKey::RSA.new(key, self.connection_configuration.sslKeyPass);
                 http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-                
-                Log.debug(">>>>>>>>>>>>>>>>>>>>>>>>> HERE GOES NOTHING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-                OpenSSL::X509::Store.add_path('../config/certs/')
-                Log.debug(">>>>>>>>>>>>>>>>>>>>>>>>> ANYTHING HAPPEN? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+                # add the trusted CA to certificate store
+                # TODO: make it part of the configuration instead of hardcoded for my mac..
+                http.cert_store = OpenSSL::X509::Store.new
+                http.cert_store.set_default_paths
+                http.cert_store.add_file('/Users/phil/projects/zayzoon/adp-connection-ruby/democlient/config/certs/apiclient_iat_chain.pem')
             end
 
             if method.eql?('POST')
